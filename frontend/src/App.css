@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: #00B5F1;
+    --primary-dark: #0099CC;
+    --primary-light: #E8F7FD;
+    --primary-mid: #B3E8FA;
+    --accent: #FF6B35;
+    --success: #22C55E;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --gray-soft: #F8FAFC;
+    --border: #E2EAF0;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background-color: #F0F8FC;
+    color: #1E3A4C;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html { scroll-behavior: smooth; }
+}
+
+@layer components {
+
+  /* ── Buttons ── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-semibold text-sm text-white
+           transition-all duration-200 active:scale-95 select-none;
+    background: linear-gradient(135deg, #00B5F1 0%, #0099CC 100%);
+    box-shadow: 0 4px 14px rgba(0,181,241,0.35);
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #00C8FF 0%, #00B5F1 100%);
+    box-shadow: 0 6px 20px rgba(0,181,241,0.45);
+    transform: translateY(-1px);
+  }
+  .btn-primary:disabled {
+    @apply opacity-60 cursor-not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-semibold text-sm
+           border-2 transition-all duration-200 active:scale-95 select-none;
+    border-color: #00B5F1;
+    color: #00B5F1;
+    background: white;
+  }
+  .btn-outline:hover {
+    background: #E8F7FD;
+    border-color: #0099CC;
+    color: #0099CC;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-semibold text-sm text-white
+           transition-all duration-200 active:scale-95 select-none;
+    background: linear-gradient(135deg, #FF6B6B 0%, #EF4444 100%);
+    box-shadow: 0 4px 14px rgba(239,68,68,0.25);
+  }
+  .btn-danger:hover {
+    box-shadow: 0 6px 20px rgba(239,68,68,0.35);
+    transform: translateY(-1px);
+  }
+
+  /* ── Card ── */
+  .card {
+    @apply bg-white rounded-2xl p-6;
+    border: 1px solid #DCF0FA;
+    box-shadow: 0 2px 12px rgba(0,181,241,0.08);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .card:hover { box-shadow: 0 4px 20px rgba(0,181,241,0.14); }
+
+  /* ── Input ── */
+  .input {
+    @apply w-full px-4 py-2.5 rounded-xl text-sm outline-none transition-all duration-200;
+    background: #F5FBFF;
+    border: 1.5px solid #C8E8F5;
+    color: #1E3A4C;
+  }
+  .input::placeholder { color: #8DB8CC; }
+  .input:focus {
+    border-color: #00B5F1;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0,181,241,0.12);
+  }
+
+  /* ── Badges ── */
+  .badge-pending {
+    @apply inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full;
+    background: #FEF3C7; color: #D97706;
+  }
+  .badge-confirmed {
+    @apply inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full;
+    background: #DBEAFE; color: #2563EB;
+  }
+  .badge-completed {
+    @apply inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full;
+    background: #DCFCE7; color: #16A34A;
+  }
+  .badge-cancelled {
+    @apply inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full;
+    background: #FEE2E2; color: #DC2626;
+  }
+
+  /* ── Table ── */
+  .table-header {
+    @apply text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide;
+    color: #6B9BB8;
+  }
+  .table-cell { @apply px-4 py-3.5 text-sm; }
+
+  /* ── Sidebar Nav ── */
+  .nav-link {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-150;
+    color: #5B8EA6;
+  }
+  .nav-link:hover {
+    background: #E8F7FD;
+    color: #00B5F1;
+  }
+  .nav-link.active {
+    background: linear-gradient(135deg, #00B5F1 0%, #0099CC 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,181,241,0.3);
+  }
+
+  /* ── Section Header ── */
+  .page-title { @apply text-2xl font-bold; color: #1E3A4C; }
+  .page-sub   { @apply text-sm mt-1; color: #7BA5BF; }
+
+  /* ── Stats Card ── */
+  .stat-card {
+    @apply rounded-2xl p-5 flex flex-col gap-1;
+    border: 1px solid rgba(0,181,241,0.15);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #F0F8FC; }
+::-webkit-scrollbar-thumb { background: #B3E8FA; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #00B5F1; }
+
+/* Wave decoration for top sections */
+.wave-bg {
+  background: linear-gradient(135deg, #E8F7FD 0%, #F0FBFF 50%, #E0F5FC 100%);
+}
