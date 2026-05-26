@@ -1,11 +1,17 @@
 import axios from 'axios'
 
-const api = axios.create({ baseURL: '/api' })
+const api = axios.create({
+  baseURL: `${import.meta.env.VITE_API_URL}/api`,
+})
 
 // Tự động gắn token vào header
 api.interceptors.request.use(cfg => {
   const token = localStorage.getItem('token')
-  if (token) cfg.headers.Authorization = `Bearer ${token}`
+
+  if (token) {
+    cfg.headers.Authorization = `Bearer ${token}`
+  }
+
   return cfg
 })
 
@@ -18,6 +24,7 @@ api.interceptors.response.use(
       localStorage.removeItem('user')
       window.location.href = '/login'
     }
+
     return Promise.reject(err)
   }
 )
