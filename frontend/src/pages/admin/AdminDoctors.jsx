@@ -75,11 +75,14 @@ export default function AdminDoctors() {
               ].map(([name, label, type]) => (
                 <div key={name}>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">{label}</label>
-                  <input type={type} name={name} value={form[name]} onChange={handleChange}
+                  <input type={type} name={name} value={form[name]} onChange={handleChange} disabled={editDoc && name === 'email'}
                     required={['name','email','specialty'].includes(name) || (name==='password' && !editDoc)}
-                    className="input" />
+                    className={`input ${editDoc && name === 'email'
+                      ? 'bg-gray-100 cursor-not-allowed text-gray-500'
+                      : ''
+                     }`} />
                 </div>
-              ))}
+              ))}  
               <div className="sm:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">Giới thiệu</label>
                 <textarea name="bio" value={form.bio} onChange={handleChange}
