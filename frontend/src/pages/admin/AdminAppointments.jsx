@@ -15,7 +15,7 @@ export default function AdminAppointments() {
     const params = new URLSearchParams()
     if (filters.status) params.set('status', filters.status)
     if (filters.date)   params.set('date',   filters.date)
-    api.get(`/appointments?${params}`).then(r => setAppointments(r.data)).finally(() => setLoading(false))
+    api.get(`/appointments/all?${params}`).then(r => setAppointments(r.data)).finally(() => setLoading(false))
   }
 
   useEffect(() => { load() }, [filters])
