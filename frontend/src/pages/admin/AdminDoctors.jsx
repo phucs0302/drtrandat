@@ -22,7 +22,7 @@ export default function AdminDoctors() {
 
   const openCreate = () => { setEditDoc(null); setForm(emptyForm); setError(''); setShowForm(true) }
   const openEdit   = async doc => {
-    const { data } = await api.get(`/doctors/${doc.id}`)
+    const { data } = await api.get(`/doctors/${doc.doctor_id}`)
     setEditDoc(doc)
     setForm({ name: data.name, email: data.email, password: '', phone: data.phone || '',
               specialty: data.specialty, degree: data.degree || '', experience: data.experience || 0, bio: data.bio || '' })
@@ -36,7 +36,7 @@ export default function AdminDoctors() {
     e.preventDefault(); setError(''); setSaving(true)
     try {
       if (editDoc) {
-        await api.put(`/admin/doctors/${editDoc.id}`, form)
+        await api.put(`/admin/doctors/${editDoc.doctor_id}`, form)
       } else {
         await api.post('/admin/doctors', form)
       }
