@@ -7,7 +7,6 @@ import {
   Award,
   CalendarDays,
   ArrowRight,
-  Star,
 } from 'lucide-react'
 
 export default function DoctorList() {
@@ -107,10 +106,9 @@ export default function DoctorList() {
               </div>
 
               {/* Rating */}
-              <div className="flex items-center gap-1 bg-yellow-50 text-yellow-600 px-3 py-1 rounded-full text-sm font-medium">
-                <Star size={14} fill="currentColor" />
-                4.9
-              </div>
+              <div className="bg-cyan-50 text-cyan-700 px-3 py-1 rounded-full text-sm font-medium">
+              {doc.experience || 0}+ năm
+            </div>
             </div>
 
             {/* Content */}
