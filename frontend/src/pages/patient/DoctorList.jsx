@@ -106,9 +106,9 @@ export default function DoctorList() {
               </div>
 
               {/* Rating */}
-              <div className="bg-cyan-50 text-cyan-700 px-3 py-1 rounded-full text-sm font-medium">
-              {doc.experience || 0}+ năm
-            </div>
+              <div className="bg-green-50 text-green-600 px-3 py-1 rounded-full text-sm font-medium">
+                Bác sĩ đang trực
+              </div>
             </div>
 
             {/* Content */}

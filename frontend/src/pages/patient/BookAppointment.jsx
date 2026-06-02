@@ -55,6 +55,9 @@ export default function BookAppointment() {
     e.preventDefault()
     if (!selected)       return setError('Vui lòng chọn ngày làm việc')
     if (!form.appt_time) return setError('Vui lòng chọn giờ khám')
+      if (!window.confirm('Bạn có chắc muốn đặt lịch khám này không?')) {
+        return
+        }
     setError('')
     setLoading(true)
     try {
@@ -83,8 +86,27 @@ export default function BookAppointment() {
       </button>
 
       <h1 className="text-3xl font-display font-semibold text-gray-900 mb-1">Đặt lịch khám</h1>
-      <p className="text-gray-500 mb-8">BS. {doctor.name} – {doctor.specialty}</p>
+      <div className="card mb-6">
+  <h2 className="text-xl font-semibold text-gray-900">
+    👨‍⚕️ BS. {doctor.name}
+  </h2>
 
+  <p className="text-primary font-medium mt-1">
+    {doctor.specialty}
+  </p>
+
+  {doctor.degree && (
+    <p className="text-sm text-gray-500 mt-2">
+      🎓 {doctor.degree}
+    </p>
+  )}
+
+  {doctor.experience > 0 && (
+    <p className="text-sm text-gray-500">
+      📅 {doctor.experience} năm kinh nghiệm
+    </p>
+  )}
+</div>
       {schedules.length === 0 ? (
         <div className="card text-center py-10 text-gray-400">
           Bác sĩ này hiện chưa có lịch làm việc khả dụng
@@ -101,9 +123,15 @@ export default function BookAppointment() {
                     ${selected?.id === s.id
                       ? 'bg-primary text-white border-primary'
                       : 'bg-white text-gray-700 border-gray-200 hover:border-primary'}`}>
-                  {new Date(toLocalDateStr(s.work_date) + 'T00:00:00').toLocaleDateString('vi-VN', { weekday: 'short', day: '2-digit', month: '2-digit' })}
+                  {new Date(toLocalDateStr(s.work_date) + 'T00:00:00')
+                    .toLocaleDateString('vi-VN', {
+                    weekday:'long',
+                    day:'2-digit',
+                    month:'2-digit',
+                    year:'numeric'
+                    })}
                   <span className="block text-xs opacity-75">
-                    {s.start_time.slice(0,5)}–{s.end_time.slice(0,5)} · còn {s.available_slots} slot
+                    {s.start_time.slice(0,5)}–{s.end_time.slice(0,5)} 🟢 Còn {s.available_slots} chỗ
                   </span>
                 </button>
               ))}
