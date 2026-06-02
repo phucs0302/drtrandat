@@ -4,11 +4,55 @@ const db     = require('../config/db');
 // Lấy danh sách tất cả người dùng
 const getAllUsers = async (req, res) => {
   const { role } = req.query;
-  let sql = 'SELECT id, name, email, phone, role, is_active, created_at FROM users WHERE 1=1';
-  const params = [];
-  if (role) { sql += ' AND role = ?'; params.push(role); }
-  sql += ' ORDER BY created_at DESC';
-  const [rows] = await db.query(sql, params);
+
+  let rows;
+
+  // Nếu lấy danh sách bác sĩ
+  if (role === 'doctor') {
+    [rows] = await db.query(`
+      SELECT
+        u.id,
+        d.id AS doctor_id,
+        u.name,
+        u.email,
+        u.phone,
+        u.role,
+        u.is_active,
+        u.created_at,
+        d.specialty,
+        d.degree,
+        d.experience
+      FROM users u
+      LEFT JOIN doctors d ON d.user_id = u.id
+      WHERE u.role = 'doctor'
+      ORDER BY u.created_at DESC
+    `);
+  } else {
+    let sql = `
+      SELECT
+        id,
+        name,
+        email,
+        phone,
+        role,
+        is_active,
+        created_at
+      FROM users
+      WHERE 1=1
+    `;
+
+    const params = [];
+
+    if (role) {
+      sql += ' AND role = ?';
+      params.push(role);
+    }
+
+    sql += ' ORDER BY created_at DESC';
+
+    [rows] = await db.query(sql, params);
+  }
+
   res.json(rows);
 };
 
