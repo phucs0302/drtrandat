@@ -24,7 +24,7 @@ export default function AdminDashboard() {
   return (
     <div className="flex flex-1">
       <Sidebar />
-      <main className="flex-1 px-6 py-8 max-w-5xl">
+      <main className="flex-1 px-8 py-8 max-w-screen-2xl mx-auto w-full">
         <h1 className="text-3xl font-display font-semibold text-gray-900 mb-2">Tổng quan hệ thống</h1>
         <p className="text-gray-400 text-sm mb-8">Thống kê và theo dõi hoạt động</p>
 
