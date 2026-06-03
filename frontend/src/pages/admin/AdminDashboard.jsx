@@ -43,6 +43,43 @@ export default function AdminDashboard() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="card mt-6">
+  <h2 className="font-semibold text-gray-800 mb-4">
+    Lịch khám gần đây
+  </h2>
+
+  <div className="overflow-x-auto">
+    <table className="w-full text-sm">
+      <thead>
+        <tr className="border-b">
+          <th className="text-left py-2">Bệnh nhân</th>
+          <th className="text-left py-2">Bác sĩ</th>
+          <th className="text-left py-2">Ngày khám</th>
+          <th className="text-left py-2">Trạng thái</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {stats.recentAppointments?.map(app => (
+          <tr key={app.id} className="border-b">
+            <td className="py-2">{app.patient_name}</td>
+
+            <td className="py-2">{app.doctor_name}</td>
+
+            <td className="py-2">
+              {new Date(app.appointment_date)
+                .toLocaleDateString('vi-VN')}
+            </td>
+
+            <td className="py-2">
+              {statusLabel[app.status]}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
               {/* Trạng thái lịch khám */}
               <div className="card">
                 <h2 className="font-semibold text-gray-800 mb-4">Trạng thái lịch khám</h2>
