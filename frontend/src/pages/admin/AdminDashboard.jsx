@@ -43,48 +43,12 @@ export default function AdminDashboard() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="card mt-6">
-  <h2 className="font-semibold text-gray-800 mb-4">
-    Lịch khám gần đây
-  </h2>
-
-  <div className="overflow-x-auto">
-    <table className="w-full text-sm">
-      <thead>
-        <tr className="border-b">
-          <th className="text-left py-2">Bệnh nhân</th>
-          <th className="text-left py-2">Bác sĩ</th>
-          <th className="text-left py-2">Ngày khám</th>
-          <th className="text-left py-2">Trạng thái</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {stats.recentAppointments?.map(app => (
-          <tr key={app.id} className="border-b">
-            <td className="py-2">{app.patient_name}</td>
-
-            <td className="py-2">{app.doctor_name}</td>
-
-            <td className="py-2">
-              {new Date(app.appointment_date)
-                .toLocaleDateString('vi-VN')}
-            </td>
-
-            <td className="py-2">
-              {statusLabel[app.status]}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-</div>
+              
               {/* Trạng thái lịch khám */}
               <div className="card">
                 <h2 className="font-semibold text-gray-800 mb-4">Trạng thái lịch khám</h2>
                 <div className="flex flex-col gap-3">
-                  {stats.byStatus.map(s => {
+                  {stats.byStatus.map(s => {  
                     const pct = stats.total_appointments > 0
                       ? Math.round(s.count / stats.total_appointments * 100) : 0
                     const colors = { pending: 'bg-yellow-400', confirmed: 'bg-blue-400', completed: 'bg-green-400', cancelled: 'bg-red-400' }
@@ -103,35 +67,112 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              {/* Lịch khám theo tháng */}
-              <div className="card">
-                <h2 className="font-semibold text-gray-800 mb-4">Lịch khám 6 tháng gần nhất</h2>
-                {stats.monthlyStats.length === 0 ? (
-                  <p className="text-gray-400 text-sm">Chưa có dữ liệu</p>
-                ) : (
-                  <div className="flex flex-col gap-2">
-                    {stats.monthlyStats.map(m => {
-                      const maxVal = Math.max(...stats.monthlyStats.map(x => x.count))
-                      const pct = maxVal > 0 ? Math.round(m.count / maxVal * 100) : 0
-                      return (
-                        <div key={m.month} className="flex items-center gap-3">
-                          <span className="text-sm text-gray-500 w-16 shrink-0">{m.month}</span>
-                          <div className="flex-1 h-5 bg-gray-100 rounded-full overflow-hidden">
-                            <div className="h-5 bg-primary/70 rounded-full flex items-center pl-2 transition-all"
-                              style={{ width: `${Math.max(pct, 8)}%` }}>
-                              <span className="text-white text-xs font-medium">{m.count}</span>
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                )}
+              {/* Lịch khám & thống kê */}
+<div className="card">
+  <h2 className="font-semibold text-gray-800 mb-4">
+    Lịch khám & thống kê
+  </h2>
+
+  {/* Lịch khám gần đây */}
+  <div className="mb-6">
+    <h3 className="text-sm font-semibold text-gray-700 mb-3">
+      Lịch khám gần đây
+    </h3>
+
+    {stats.recentAppointments?.length > 0 ? (
+      <div className="space-y-3">
+        {stats.recentAppointments.map(app => (
+          <div
+            key={app.id}
+            className="flex justify-between items-center border-b pb-2"
+          >
+            <div>
+              <p className="font-medium text-gray-800">
+                {app.patient_name}
+              </p>
+
+              <p className="text-xs text-gray-500">
+                BS. {app.doctor_name}
+              </p>
+            </div>
+
+            <div className="text-right">
+              <p className="text-sm text-gray-700">
+                {new Date(
+                  app.appointment_date
+                ).toLocaleDateString('vi-VN')}
+              </p>
+
+              <p className="text-xs text-gray-500">
+                {statusLabel[app.status]}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p className="text-gray-400 text-sm">
+        Chưa có lịch khám
+      </p>
+    )}
+  </div>
+
+  {/* Thống kê 6 tháng */}
+  <div>
+    <h3 className="text-sm font-semibold text-gray-700 mb-3">
+      Thống kê 6 tháng gần nhất
+    </h3>
+
+    {stats.monthlyStats.length === 0 ? (
+      <p className="text-gray-400 text-sm">
+        Chưa có dữ liệu
+      </p>
+    ) : (
+      <div className="flex flex-col gap-2">
+        {stats.monthlyStats.map(m => {
+          const maxVal = Math.max(
+            ...stats.monthlyStats.map(x => x.count)
+          )
+
+          const pct =
+            maxVal > 0
+              ? Math.round((m.count / maxVal) * 100)
+              : 0
+
+          return (
+            <div
+              key={m.month}
+              className="flex items-center gap-3"
+            >
+              <span className="text-sm text-gray-500 w-16 shrink-0">
+                {m.month}
+              </span>
+
+              <div className="flex-1 h-5 bg-gray-100 rounded-full overflow-hidden">
+                <div
+                  className="h-5 bg-primary/70 rounded-full flex items-center pl-2 transition-all"
+                  style={{
+                    width: `${Math.max(pct, 8)}%`
+                  }}
+                >
+                  <span className="text-white text-xs font-medium">
+                    {m.count}
+                  </span>
+                </div>
               </div>
             </div>
+          )
+        })}
+      </div>
+    )}
+  </div>
+  </div>
+   </div>
           </>
+          
         )}
       </main>
     </div>
+    
   )
 }
