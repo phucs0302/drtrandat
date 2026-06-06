@@ -125,19 +125,3 @@ export default function AdminDashboard() {
     
   )
 }
-<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-  {stats.byStatus.map(s => (
-    <div
-      key={s.status}
-      className="card text-center"
-    >
-      <div className="text-3xl font-bold text-primary mb-2">
-        {s.count}
-      </div>
-
-      <div className="text-gray-600">
-        {statusLabel[s.status]}
-      </div>
-    </div>
-  ))}
-</div>
