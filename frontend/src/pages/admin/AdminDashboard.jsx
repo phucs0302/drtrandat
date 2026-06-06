@@ -70,102 +70,51 @@ export default function AdminDashboard() {
               {/* Lịch khám & thống kê */}
 <div className="card">
   <h2 className="font-semibold text-gray-800 mb-4">
-    Lịch khám & thống kê
+    Thống kê lịch khám 6 tháng gần nhất
   </h2>
 
-  {/* Lịch khám gần đây */}
-  <div className="mb-6">
-    <h3 className="text-sm font-semibold text-gray-700 mb-3">
-      Lịch khám gần đây
-    </h3>
+  {stats.monthlyStats.length === 0 ? (
+    <p className="text-gray-400 text-sm">
+      Chưa có dữ liệu
+    </p>
+  ) : (
+    <div className="flex flex-col gap-3">
+      {stats.monthlyStats.map(m => {
+        const maxVal = Math.max(
+          ...stats.monthlyStats.map(x => x.count)
+        )
 
-    {stats.recentAppointments?.length > 0 ? (
-      <div className="space-y-3">
-        {stats.recentAppointments.map(app => (
+        const pct =
+          maxVal > 0
+            ? Math.round((m.count / maxVal) * 100)
+            : 0
+
+        return (
           <div
-            key={app.id}
-            className="flex justify-between items-center border-b pb-2"
+            key={m.month}
+            className="flex items-center gap-3"
           >
-            <div>
-              <p className="font-medium text-gray-800">
-                {app.patient_name}
-              </p>
+            <span className="text-sm text-gray-500 w-20 shrink-0">
+              {m.month}
+            </span>
 
-              <p className="text-xs text-gray-500">
-                BS. {app.doctor_name}
-              </p>
-            </div>
-
-            <div className="text-right">
-              <p className="text-sm text-gray-700">
-                {new Date(
-                  app.appointment_date
-                ).toLocaleDateString('vi-VN')}
-              </p>
-
-              <p className="text-xs text-gray-500">
-                {statusLabel[app.status]}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-    ) : (
-      <p className="text-gray-400 text-sm">
-        Chưa có lịch khám
-      </p>
-    )}
-  </div>
-
-  {/* Thống kê 6 tháng */}
-  <div>
-    <h3 className="text-sm font-semibold text-gray-700 mb-3">
-      Thống kê 6 tháng gần nhất
-    </h3>
-
-    {stats.monthlyStats.length === 0 ? (
-      <p className="text-gray-400 text-sm">
-        Chưa có dữ liệu
-      </p>
-    ) : (
-      <div className="flex flex-col gap-2">
-        {stats.monthlyStats.map(m => {
-          const maxVal = Math.max(
-            ...stats.monthlyStats.map(x => x.count)
-          )
-
-          const pct =
-            maxVal > 0
-              ? Math.round((m.count / maxVal) * 100)
-              : 0
-
-          return (
-            <div
-              key={m.month}
-              className="flex items-center gap-3"
-            >
-              <span className="text-sm text-gray-500 w-16 shrink-0">
-                {m.month}
-              </span>
-
-              <div className="flex-1 h-5 bg-gray-100 rounded-full overflow-hidden">
-                <div
-                  className="h-5 bg-primary/70 rounded-full flex items-center pl-2 transition-all"
-                  style={{
-                    width: `${Math.max(pct, 8)}%`
-                  }}
-                >
-                  <span className="text-white text-xs font-medium">
-                    {m.count}
-                  </span>
-                </div>
+            <div className="flex-1 h-6 bg-gray-100 rounded-full overflow-hidden">
+              <div
+                className="h-6 bg-primary rounded-full flex items-center pl-3"
+                style={{
+                  width: `${Math.max(pct, 8)}%`
+                }}
+              >
+                <span className="text-white text-xs font-medium">
+                  {m.count}
+                </span>
               </div>
             </div>
-          )
-        })}
-      </div>
-    )}
-  </div>
+          </div>
+        )
+      })}
+    </div>
+  )}
   </div>
    </div>
           </>
@@ -176,3 +125,19 @@ export default function AdminDashboard() {
     
   )
 }
+<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+  {stats.byStatus.map(s => (
+    <div
+      key={s.status}
+      className="card text-center"
+    >
+      <div className="text-3xl font-bold text-primary mb-2">
+        {s.count}
+      </div>
+
+      <div className="text-gray-600">
+        {statusLabel[s.status]}
+      </div>
+    </div>
+  ))}
+</div>
