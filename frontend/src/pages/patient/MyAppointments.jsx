@@ -30,7 +30,7 @@ export default function MyAppointments() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="w-full max-w-screen-xl mx-auto px-6 py-8">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-display font-semibold text-gray-900">Lịch khám của tôi</h1>
         <Link to="/patient/doctors" className="btn-primary text-sm">+ Đặt lịch mới</Link>
@@ -50,9 +50,9 @@ export default function MyAppointments() {
           <Link to="/patient/doctors" className="btn-primary">Đặt lịch ngay</Link>
         </div>
       ) : (
-        <div className="flex flex-col gap-4">
+        <div className="grid lg:grid-cols-2 gap-6">
           {appointments.map(a => (
-            <div key={a.id} className="card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div key={a.id} className="card hover:shadow-lg transition-all duration-200 flex flex-col justify-between min-h-[220px]">
               <div className="flex gap-4 items-start">
                 <div className="w-12 h-12 bg-primary-light rounded-xl flex items-center justify-center text-xl shrink-0">
                   📅
