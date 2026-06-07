@@ -43,12 +43,26 @@ export default function App() {
         <Route path="/patient/doctors" element={<ProtectedRoute roles={['patient']}><DoctorList /></ProtectedRoute>} />
         <Route path="/patient/book/:doctorId" element={<ProtectedRoute roles={['patient']}><BookAppointment /></ProtectedRoute>} />
         <Route path="/patient/appointments" element={<ProtectedRoute roles={['patient']}><MyAppointments /></ProtectedRoute>} />
-        <Route path="/patient/profile" element={<PatientProfile />} />
+       <Route
+  path="/patient/profile"
+  element={
+    <ProtectedRoute roles={['patient']}>
+      <PatientProfile />
+    </ProtectedRoute>
+  }
+/>
 
         {/* Doctor */}
         <Route path="/doctor"           element={<ProtectedRoute roles={['doctor']}><DoctorDashboard /></ProtectedRoute>} />
         <Route path="/doctor/schedules" element={<ProtectedRoute roles={['doctor']}><DoctorSchedules /></ProtectedRoute>} />
-        <Route path="/doctor/profile"   element={<DoctorProfile />} />
+       <Route
+  path="/doctor/profile"
+  element={
+    <ProtectedRoute roles={['doctor']}>
+      <DoctorProfile />
+    </ProtectedRoute>
+  }
+/>
 
         {/* Admin */}
         <Route path="/admin"              element={<ProtectedRoute roles={['admin']}><AdminDashboard /></ProtectedRoute>} />
