@@ -10,9 +10,11 @@ import PatientHome      from './pages/patient/PatientHome'
 import DoctorList       from './pages/patient/DoctorList'
 import BookAppointment  from './pages/patient/BookAppointment'
 import MyAppointments   from './pages/patient/MyAppointments'
+import PatientProfile   from './pages/patient/PatientProfile';
 
 import DoctorDashboard  from './pages/doctor/DoctorDashboard'
 import DoctorSchedules  from './pages/doctor/DoctorSchedules'
+import DoctorProfile    from './pages/doctor/DoctorProfile';
 
 import AdminDashboard   from './pages/admin/AdminDashboard'
 import AdminDoctors     from './pages/admin/AdminDoctors'
@@ -41,10 +43,12 @@ export default function App() {
         <Route path="/patient/doctors" element={<ProtectedRoute roles={['patient']}><DoctorList /></ProtectedRoute>} />
         <Route path="/patient/book/:doctorId" element={<ProtectedRoute roles={['patient']}><BookAppointment /></ProtectedRoute>} />
         <Route path="/patient/appointments" element={<ProtectedRoute roles={['patient']}><MyAppointments /></ProtectedRoute>} />
+        <Route path="/patient/profile" element={<PatientProfile />} />
 
         {/* Doctor */}
         <Route path="/doctor"           element={<ProtectedRoute roles={['doctor']}><DoctorDashboard /></ProtectedRoute>} />
         <Route path="/doctor/schedules" element={<ProtectedRoute roles={['doctor']}><DoctorSchedules /></ProtectedRoute>} />
+        <Route path="/doctor/profile"   element={<DoctorProfile />} />
 
         {/* Admin */}
         <Route path="/admin"              element={<ProtectedRoute roles={['admin']}><AdminDashboard /></ProtectedRoute>} />
