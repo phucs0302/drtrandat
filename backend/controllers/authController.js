@@ -44,20 +44,113 @@ const login = async (req, res) => {
 
 // Lấy thông tin cá nhân
 const getProfile = async (req, res) => {
-  const [rows] = await db.query(
-    'SELECT id, name, email, phone, role, created_at FROM users WHERE id = ?',
-    [req.user.id]
-  );
-  if (!rows.length) return res.status(404).json({ message: 'Không tìm thấy người dùng' });
-  res.json(rows[0]);
+  try {
+
+    const [users] = await db.query(
+      `SELECT id,name,email,phone,role
+       FROM users
+       WHERE id=?`,
+      [req.user.id]
+    );
+
+    if (!users.length) {
+      return res.status(404).json({
+        message: 'Không tìm thấy người dùng'
+      });
+    }
+
+    const user = users[0];
+
+    if (user.role === 'doctor') {
+
+      const [doctor] = await db.query(
+        `SELECT specialty,
+                degree,
+                experience,
+                bio
+         FROM doctors
+         WHERE user_id=?`,
+        [req.user.id]
+      );
+
+      if (doctor.length) {
+        user.doctorInfo = doctor[0];
+      }
+    }
+
+    res.json(user);
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
 };
 
 // Cập nhật thông tin cá nhân
 const updateProfile = async (req, res) => {
-  const { name, phone } = req.body;
-  await db.query('UPDATE users SET name = ?, phone = ? WHERE id = ?',
-    [name, phone, req.user.id]);
-  res.json({ message: 'Cập nhật thành công' });
+
+  try {
+
+    const {
+      name,
+      phone,
+      specialty,
+      degree,
+      experience,
+      bio
+    } = req.body;
+
+    await db.query(
+      `UPDATE users
+       SET name=?,
+           phone=?
+       WHERE id=?`,
+      [
+        name,
+        phone,
+        req.user.id
+      ]
+    );
+
+    const [users] = await db.query(
+      'SELECT role FROM users WHERE id=?',
+      [req.user.id]
+    );
+
+    if (
+      users.length &&
+      users[0].role === 'doctor'
+    ) {
+
+      await db.query(
+        `UPDATE doctors
+         SET specialty=?,
+             degree=?,
+             experience=?,
+             bio=?
+         WHERE user_id=?`,
+        [
+          specialty,
+          degree,
+          experience,
+          bio,
+          req.user.id
+        ]
+      );
+    }
+
+    res.json({
+      message: 'Cập nhật thành công'
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
 };
 
 module.exports = { register, login, getProfile, updateProfile };

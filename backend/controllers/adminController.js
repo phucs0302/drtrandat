@@ -171,8 +171,7 @@ const getStats = async (req, res) => {
       total_doctors,
       total_appointments,
       byStatus,
-      monthlyStats,
-      topDoctors
+      monthlyStats
     });
 
   } catch (error) {
