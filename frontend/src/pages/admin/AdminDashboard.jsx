@@ -76,7 +76,7 @@ export default function AdminDashboard() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">
-            Dashboard Quản Trị
+            Tổng quan phòng khám
           </h1>
 
           <p className="text-gray-500 mt-2">
@@ -155,69 +155,7 @@ export default function AdminDashboard() {
               })}
             </div>
           </div>
-
-          {/* Top Doctors */}
-          <div className="bg-white rounded-2xl shadow-sm p-6">
-            <h2 className="text-lg font-semibold text-gray-800 mb-6">
-              🏆 Top 5 bác sĩ có nhiều lượt khám nhất
-            </h2>
-
-            {stats.topDoctors?.length > 0 ? (
-              <div className="space-y-4">
-                {stats.topDoctors.map(
-                  (doctor, index) => (
-                    <div
-                      key={doctor.id}
-                      className="flex items-center justify-between p-3 rounded-xl bg-gray-50"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div
-                          className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-white
-                          ${
-                            index === 0
-                              ? 'bg-yellow-500'
-                              : index === 1
-                              ? 'bg-gray-500'
-                              : index === 2
-                              ? 'bg-orange-500'
-                              : 'bg-primary'
-                          }`}
-                        >
-                          {index + 1}
-                        </div>
-
-                        <div>
-                          <p className="font-semibold text-gray-800">
-                            {doctor.name}
-                          </p>
-
-                          <p className="text-sm text-gray-500">
-                            {doctor.specialty}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="text-right">
-                        <p className="text-xl font-bold text-primary">
-                          {doctor.totalAppointments}
-                        </p>
-
-                        <p className="text-xs text-gray-500">
-                          lượt khám
-                        </p>
-                      </div>
-                    </div>
-                  )
-                )}
-              </div>
-            ) : (
-              <p className="text-gray-400">
-                Chưa có dữ liệu
-              </p>
-            )}
-          </div>
-        </div>
-
+              
         {/* Monthly Statistics */}
         <div className="bg-white rounded-2xl shadow-sm p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-6">
@@ -267,7 +205,60 @@ export default function AdminDashboard() {
             </p>
           )}
         </div>
+      </div>
+      {/* Footer */}
+<footer className="mt-10 bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+  <div className="grid md:grid-cols-3 gap-6">
+    
+    <div>
+      <h3 className="font-semibold text-gray-800 mb-3">
+        🏥 Phòng Khám Mắt Dr Trần Đạt
+      </h3>
+
+      <p className="text-sm text-gray-600">
+        Hệ thống đặt lịch khám bệnh trực tuyến hỗ trợ bệnh nhân
+        đăng ký khám nhanh chóng và thuận tiện.
+      </p>
+    </div>
+
+    <div>
+      <h3 className="font-semibold text-gray-800 mb-3">
+        📍 Thông tin liên hệ
+      </h3>
+
+      <div className="space-y-2 text-sm text-gray-600">
+        <p>
+          <strong>Địa chỉ:</strong> 65 Trần Phú, Hà Đông, Hà Nội
+        </p>
+
+        <p>
+          <strong>Email:</strong> drtrandat@gmail.com
+        </p>
+
+        <p>
+          <strong>Điện thoại:</strong> 0988 888 888
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <h3 className="font-semibold text-gray-800 mb-3">
+        ⏰ Giờ làm việc
+      </h3>
+
+      <div className="space-y-2 text-sm text-gray-600">
+        <p>Thứ 2 - Chủ nhật: 08:00 - 12:00, 14:00 - 21:00</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div className="border-t mt-6 pt-4 text-center text-sm text-gray-500">
+    © {new Date().getFullYear()} Phòng Khám Mắt Dr Trần Đạt.
+    All Rights Reserved.
+  </div>
+</footer>
       </main>
     </div>
   )
-}
+} 
