@@ -65,22 +65,6 @@ export default function AdminDashboard() {
                     )
                   })}
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-  {stats.byStatus.map(s => (
-    <div
-      key={s.status}
-      className="card text-center"
-    >
-      <div className="text-3xl font-bold text-primary mb-2">
-        {s.count}
-      </div>
-
-      <div className="text-gray-600">
-        {statusLabel[s.status]}
-      </div>
-    </div>
-  ))}
-</div>
               </div>
 
               {/* Lịch khám & thống kê */}
@@ -90,10 +74,11 @@ export default function AdminDashboard() {
   </h2>
 
   {stats.monthlyStats.length === 0 ? (
-    <p className="text-gray-400 text-sm">
-      Chưa có dữ liệu
-    </p>
-  ) : (
+  <p className="text-gray-400 text-sm">
+    Chưa có dữ liệu
+  </p>
+) : (
+  <>
     <div className="flex flex-col gap-3">
       {stats.monthlyStats.map(m => {
         const maxVal = Math.max(
@@ -130,14 +115,60 @@ export default function AdminDashboard() {
         )
       })}
     </div>
-  )}
-  </div>
-   </div>
-          </>
-          
-        )}
+
+    <div className="card mt-6">
+      <h2 className="font-semibold text-gray-800 mb-5">
+        🏆 Top 5 bác sĩ có nhiều lượt khám nhất
+      </h2>
+
+      {stats.topDoctors?.length > 0 ? (
+        <div className="space-y-4">
+          {stats.topDoctors.map((doctor, index) => (
+            <div
+              key={doctor.id}
+              className="flex items-center justify-between border-b pb-3"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary-light flex items-center justify-center font-semibold">
+                  #{index + 1}
+                </div>
+
+                <div>
+                  <p className="font-medium text-gray-800">
+                    {doctor.name}
+                  </p>
+
+                  <p className="text-sm text-gray-500">
+                    Bác sĩ chuyên khoa
+                  </p>
+                </div>
+              </div>
+
+              <div className="text-right">
+                <p className="text-xl font-bold text-primary">
+                  {doctor.totalAppointments}
+                </p>
+
+                <p className="text-xs text-gray-500">
+                  lượt khám
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-400">
+          Chưa có dữ liệu
+        </p>
+      )}
+    </div>
+  </>
+)}
+              </div>
+            </div>
+          </>     
+      )}
       </main>
     </div>
-    
   )
 }
