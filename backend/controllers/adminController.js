@@ -107,37 +107,71 @@ const updateDoctor = async (req, res) => {
 
 // Thống kê tổng quan
 const getStats = async (req, res) => {
-  const [[{ total_patients }]] = await db.query(
-    "SELECT COUNT(*) AS total_patients FROM users WHERE role = 'patient'"
-  );
-  const [[{ total_doctors }]] = await db.query(
-    "SELECT COUNT(*) AS total_doctors FROM users WHERE role = 'doctor'"
-  );
-  const [[{ total_appointments }]] = await db.query(
-    'SELECT COUNT(*) AS total_appointments FROM appointments'
-  );
-  const [byStatus] = await db.query(
-    'SELECT status, COUNT(*) AS count FROM appointments GROUP BY status'
-  );
-  const [monthlyStats] = await db.query(`
-    SELECT DATE_FORMAT(appt_date, '%Y-%m') AS month, COUNT(*) AS count
-    FROM appointments
-    WHERE appt_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
-    GROUP BY month ORDER BY month
-  `);
-  const [topDoctors] = await db.query(`
-  SELECT
-    u.id,
-    u.name,
-    COUNT(a.id) AS totalAppointments
-  FROM appointments a
-  JOIN users u ON a.doctor_id = u.id
-  GROUP BY u.id, u.name
-  ORDER BY totalAppointments DESC
-  LIMIT 5
-`);
+  try {
+    const [[{ total_patients }]] = await db.query(`
+      SELECT COUNT(*) AS total_patients
+      FROM users
+      WHERE role = 'patient'
+    `);
 
-  res.json({ total_patients, total_doctors, total_appointments, byStatus, monthlyStats, topDoctors });
+    const [[{ total_doctors }]] = await db.query(`
+      SELECT COUNT(*) AS total_doctors
+      FROM users
+      WHERE role = 'doctor'
+    `);
+
+    const [[{ total_appointments }]] = await db.query(`
+      SELECT COUNT(*) AS total_appointments
+      FROM appointments
+    `);
+
+    const [byStatus] = await db.query(`
+      SELECT status, COUNT(*) AS count
+      FROM appointments
+      GROUP BY status
+    `);
+
+    const [monthlyStats] = await db.query(`
+      SELECT
+        DATE_FORMAT(appt_date,'%Y-%m') AS month,
+        COUNT(*) AS count
+      FROM appointments
+      WHERE appt_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+      GROUP BY month
+      ORDER BY month
+    `);
+
+    const [topDoctors] = await db.query(`
+      SELECT
+        d.id,
+        u.name,
+        d.specialty,
+        COUNT(a.id) AS totalAppointments
+      FROM doctors d
+      JOIN users u
+        ON d.user_id = u.id
+      LEFT JOIN appointments a
+        ON a.doctor_id = d.id
+      GROUP BY d.id, u.name, d.specialty
+      ORDER BY totalAppointments DESC
+      LIMIT 5
+    `);
+
+    res.json({
+      total_patients,
+      total_doctors,
+      total_appointments,
+      byStatus,
+      monthlyStats,
+      topDoctors
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'Lỗi lấy thống kê'
+    });
+  }
 };
 
 module.exports = { getAllUsers, toggleUserStatus, createDoctor, updateDoctor, getStats };
