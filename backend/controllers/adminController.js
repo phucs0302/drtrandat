@@ -125,8 +125,19 @@ const getStats = async (req, res) => {
     WHERE appt_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
     GROUP BY month ORDER BY month
   `);
+  const [topDoctors] = await db.query(`
+  SELECT
+    u.id,
+    u.name,
+    COUNT(a.id) AS totalAppointments
+  FROM appointments a
+  JOIN users u ON a.doctor_id = u.id
+  GROUP BY u.id, u.name
+  ORDER BY totalAppointments DESC
+  LIMIT 5
+`);
 
-  res.json({ total_patients, total_doctors, total_appointments, byStatus, monthlyStats });
+  res.json({ total_patients, total_doctors, total_appointments, byStatus, monthlyStats, topDoctors });
 };
 
 module.exports = { getAllUsers, toggleUserStatus, createDoctor, updateDoctor, getStats };
