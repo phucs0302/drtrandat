@@ -192,7 +192,7 @@ export default function AdminDashboard() {
                           </p>
 
                           <p className="text-sm text-gray-500">
-                            Bác sĩ
+                            {doctor.specialty}
                           </p>
                         </div>
                       </div>
