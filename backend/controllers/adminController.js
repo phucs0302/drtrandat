@@ -142,20 +142,29 @@ const getStats = async (req, res) => {
     `);
 
     const [topDoctors] = await db.query(`
-      SELECT
-        d.id,
-        u.name,
-        d.specialty,
-        COUNT(a.id) AS totalAppointments
-      FROM doctors d
-      JOIN users u
-        ON d.user_id = u.id
-      LEFT JOIN appointments a
-        ON a.doctor_id = d.id
-      GROUP BY d.id, u.name, d.specialty
-      ORDER BY totalAppointments DESC
-      LIMIT 5
-    `);
+  SELECT
+    d.id,
+    u.name,
+    d.specialty,
+    d.degree,
+    d.experience,
+    d.avatar,
+    COUNT(a.id) AS totalAppointments
+  FROM doctors d
+  JOIN users u
+    ON d.user_id = u.id
+  LEFT JOIN appointments a
+    ON a.doctor_id = d.id
+  GROUP BY
+    d.id,
+    u.name,
+    d.specialty,
+    d.degree,
+    d.experience,
+    d.avatar
+  ORDER BY totalAppointments DESC
+  LIMIT 5
+`);
 
     res.json({
       total_patients,
