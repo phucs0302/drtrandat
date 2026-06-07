@@ -282,6 +282,59 @@ export default function PatientHome() {
           </div>
         )}
       </div>
+    {/* Footer */}
+<footer className="mt-10 bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+  <div className="grid md:grid-cols-3 gap-6">
+    
+    <div>
+      <h3 className="font-semibold text-gray-800 mb-3">
+        🏥 Phòng Khám Mắt Dr Trần Đạt
+      </h3>
+
+      <p className="text-sm text-gray-600">
+        Hệ thống đặt lịch khám bệnh trực tuyến hỗ trợ bệnh nhân
+        đăng ký khám nhanh chóng và thuận tiện.
+      </p>
     </div>
+
+    <div>
+      <h3 className="font-semibold text-gray-800 mb-3">
+        📍 Thông tin liên hệ
+      </h3>
+
+      <div className="space-y-2 text-sm text-gray-600">
+        <p>
+          <strong>Địa chỉ:</strong> 65 Trần Phú, Hà Đông, Hà Nội
+        </p>
+
+        <p>
+          <strong>Email:</strong> drtrandat@gmail.com
+        </p>
+
+        <p>
+          <strong>Điện thoại:</strong> 0988 888 888
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <h3 className="font-semibold text-gray-800 mb-3">
+        ⏰ Giờ làm việc
+      </h3>
+
+      <div className="space-y-2 text-sm text-gray-600">
+        <p>Thứ 2 - Chủ nhật: 08:00 - 12:00, 14:00 - 21:00</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div className="border-t mt-6 pt-4 text-center text-sm text-gray-500">
+    © {new Date().getFullYear()} Phòng Khám Mắt Dr Trần Đạt.
+    All Rights Reserved.
+  </div>
+</footer>
+      </div>
+        
   )
 }
