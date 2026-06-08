@@ -11,6 +11,7 @@ import {
 
 import api from '../../utils/api'
 import { useAuth } from '../../utils/AuthContext'
+import Sidebar from '../../components/Sidebar'
 
 export default function PatientHome() {
   const { user } = useAuth()
@@ -39,6 +40,13 @@ export default function PatientHome() {
       desc: 'Quản lý các lịch khám đã đặt',
       bg: 'from-emerald-500 to-green-500',
     },
+    {
+  to: '/patient/profile',
+  icon: ClipboardList,
+  title: 'Hồ sơ cá nhân',
+  desc: 'Xem và cập nhật thông tin cá nhân',
+  bg: 'from-purple-500 to-pink-500',
+},
   ]
 
   useEffect(() => {
@@ -62,7 +70,10 @@ export default function PatientHome() {
   )
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="flex flex-1">
+    <Sidebar />
+
+    <main className="flex-1 max-w-7xl mx-auto px-4 py-8">
 
       {/* HERO */}
       <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-3xl p-8 text-white shadow-lg">
@@ -334,7 +345,7 @@ export default function PatientHome() {
     All Rights Reserved.
   </div>
 </footer>
-      </div>
-        
+      </main>
+    </div>
   )
 }
