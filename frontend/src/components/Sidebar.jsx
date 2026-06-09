@@ -12,6 +12,7 @@ const doctorLinks = [
   { to: '/doctor', label: 'Lịch khám của tôi', icon: '📋' },
   { to: '/doctor/schedules', label: 'Lịch làm việc', icon: '📅' },
   { to: '/doctor/profile', label: 'Hồ sơ cá nhân', icon: '👤' },
+  { to: '/change-password', label: 'Đổi mật khẩu', icon: '🔒' },
 ]
 
 const patientLinks = [
@@ -19,6 +20,7 @@ const patientLinks = [
   { to: '/patient/doctors', label: 'Đặt lịch khám', icon: '📅' },
   { to: '/patient/appointments', label: 'Lịch khám của tôi', icon: '📋' },
   { to: '/patient/profile', label: 'Hồ sơ cá nhân', icon: '👤' },
+  { to: '/change-password', label: 'Đổi mật khẩu', icon: '🔒' },
 ]
 
 export default function Sidebar() {
