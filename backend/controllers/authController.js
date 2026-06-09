@@ -152,5 +152,70 @@ const updateProfile = async (req, res) => {
 
   }
 };
+const changePassword = async (req, res) => {
+  try {
 
-module.exports = { register, login, getProfile, updateProfile };
+    const {
+      currentPassword,
+      newPassword,
+      confirmPassword
+    } = req.body;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return res.status(400).json({
+        message: 'Vui lòng nhập đầy đủ thông tin'
+      });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        message: 'Xác nhận mật khẩu không khớp'
+      });
+    }
+
+    const [users] = await db.query(
+      'SELECT * FROM users WHERE id = ?',
+      [req.user.id]
+    );
+
+    if (!users.length) {
+      return res.status(404).json({
+        message: 'Không tìm thấy người dùng'
+      });
+    }
+
+    const user = users[0];
+
+    const match = await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
+
+    if (!match) {
+      return res.status(400).json({
+        message: 'Mật khẩu hiện tại không đúng'
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(
+      newPassword,
+      10
+    );
+
+    await db.query(
+      'UPDATE users SET password = ? WHERE id = ?',
+      [hashedPassword, req.user.id]
+    );
+
+    res.json({
+      message: 'Đổi mật khẩu thành công'
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
+module.exports = { register, login, getProfile, updateProfile, changePassword };
