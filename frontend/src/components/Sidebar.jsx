@@ -16,7 +16,7 @@ const doctorLinks = [
 
 const patientLinks = [
   { to: '/patient', label: 'Trang chủ', icon: '🏠' },
-  { to: '/patient/book', label: 'Đặt lịch khám', icon: '📅' },
+  { to: '/patient/doctors', label: 'Đặt lịch khám', icon: '📅' },
   { to: '/patient/appointments', label: 'Lịch khám của tôi', icon: '📋' },
   { to: '/patient/profile', label: 'Hồ sơ cá nhân', icon: '👤' },
 ]
