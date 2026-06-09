@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './utils/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from './components/Navbar'
+import ChangePassword from './pages/shared/ChangePassword';
 
 import Login    from './pages/Login'
 import Register from './pages/Register'
@@ -21,6 +22,7 @@ import AdminDoctors     from './pages/admin/AdminDoctors'
 import AdminPatients    from './pages/admin/AdminPatients'
 import AdminAppointments from './pages/admin/AdminAppointments'
 
+
 const RootRedirect = () => {
   const { user } = useAuth()
   if (!user) return <Navigate to="/login" replace />
@@ -37,6 +39,7 @@ export default function App() {
         <Route path="/"        element={<RootRedirect />} />
         <Route path="/login"   element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} /> 
 
         {/* Patient */}
         <Route path="/patient" element={<ProtectedRoute roles={['patient']}><PatientHome /></ProtectedRoute>} />
