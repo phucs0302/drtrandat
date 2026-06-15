@@ -220,4 +220,6 @@ const changePassword = async (req, res) => {
   }
 };
 
+console.log(typeof changePassword);
+
 module.exports = { register, login, getProfile, updateProfile, changePassword };
