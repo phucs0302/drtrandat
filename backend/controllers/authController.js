@@ -86,11 +86,21 @@ const getProfile = async (req, res) => {
     });
   }
 };
+console.log('USER ID:', req.user.id);
+
+const [doctor] = await db.query(
+  'SELECT * FROM doctors WHERE user_id = ?',
+  [req.user.id]
+);
+
+console.log('DOCTOR:', doctor);
 
 // Cập nhật thông tin cá nhân
 const updateProfile = async (req, res) => {
 
   try {
+
+    console.log(req.body);
 
     const {
       name,
